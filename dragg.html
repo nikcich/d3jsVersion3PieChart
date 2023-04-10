@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Resizable and Draggable Div Element</title>
+    <style>
+        body {
+            height: 100vh;
+            width: 100vw;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        #app {
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            width: 900px;
+            height: 600px;
+            background-color: #fff;
+            border: 3px solid #000;
+            resize: both;
+            overflow: auto;
+            min-height: 200px;
+            min-width: 200px;
+            overflow: hidden;
+            padding-top: 20px;
+        }
+
+        .handle {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background-color: #3b3b3b00;
+            z-index: 10;
+            pointer-events: all;
+        }
+
+        .top {
+            top: -8px;
+            cursor: n-resize;
+            width: 100%;
+        }
+
+        .right {
+            height: 100%;
+            right: -8px;
+            margin-top: -8px;
+            cursor: e-resize;
+        }
+
+        .bottom {
+            bottom: -8px;
+            cursor: s-resize;
+            width: 100%;
+        }
+
+        .left {
+            height: 100%;
+            left: -8px;
+            margin-top: -8px;
+            cursor: w-resize;
+        }
+
+        #app-handle {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 8px;
+            height: 8px;
+            background-color: #00000000;
+            cursor: se-resize;
+            pointer-events: all;
+        }
+
+        #drag-handle {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 20px;
+            background-color: #000;
+            pointer-events: all;
+            z-index: 9;
+            cursor: grabbing;
+        }
+
+        #app-content {
+            height: 100%;
+            width: 100%;
+            background: steelblue;
+            z-index: 1;
+            overflow: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div class="handle top"></div>
+        <div class="handle right"></div>
+        <div class="handle bottom"></div>
+        <div class="handle left"></div>
+        <div id="app-handle"></div>
+        <div id="drag-handle"></div>
+
+        <div id="app-content">
+            <h1>hi</h1>
+            <h1>hi</h1>
+            <h1>hi</h1>
+            <h1>hi</h1>
+            <h1>hi</h1>
+            <h1>hi</h1>
+            <h1>hi</h1>
+            <h1>hi</h1>
+            <h1>hi</h1>
+            <h1>hi</h1>
+            <h1>hi</h1>
+            <h1>hi</h1>
+            <h1>hi</h1>
+            <h1>hi</h1>
+            <h1>hi</h1>
+            <h1>hi</h1>
+        </div>
+    </div>
+
+    <script>
+        const app = document.querySelector('#app');
+        const handle = document.querySelector('#app-handle');
+        const dragger = document.querySelector('#drag-handle');
+        const handles = document.querySelectorAll('.handle');
+        let isDragging = false;
+        let isResizing = false;
+        let mouseX = 0;
+        let mouseY = 0;
+        let appWidth = app.offsetWidth;
+        let appHeight = app.offsetHeight;
+
+        let selectedHandle = null;
+
+        handle.addEventListener('mousedown', (event) => {
+            event.preventDefault();
+            isResizing = true;
+        });
+
+        handles.forEach((h) => {
+            h.addEventListener('mousedown', (event) => {
+                event.preventDefault();
+                isResizing = true;
+                isDragging = false;
+                mouseX = event.clientX;
+                mouseY = event.clientY;
+                appWidth = app.offsetWidth;
+                appHeight = app.offsetHeight;
+
+                selectedHandle = h;
+            });
+        });
+
+        dragger.addEventListener('mousedown', (event) => {
+            event.preventDefault();
+            isDragging = true;
+            isResizing = false;
+            mouseX = event.clientX - app.offsetLeft;
+            mouseY = event.clientY - app.offsetTop;
+        });
+
+        window.addEventListener('mouseup', () => {
+            isDragging = false;
+            isResizing = false;
+        });
+
+        window.addEventListener('mousemove', (event) => {
+            if (isDragging) {
+                app.style.left = (event.clientX - mouseX) + 'px';
+                app.style.top = (event.clientY - mouseY) + 'px';
+            }
+        });
+
+    </script>
+</body>
+
+</html>

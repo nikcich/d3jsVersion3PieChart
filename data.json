@@ -1,0 +1,15 @@
+{
+    "nodes": [
+      {"id": "A", "label": "Node A"},
+      {"id": "B", "label": "Node B"},
+      {"id": "C", "label": "Node C"},
+      {"id": "D", "label": "Node D"}
+    ],
+    "links": [
+      {"source": "A", "target": "B", "value": 10},
+      {"source": "A", "target": "C", "value": 5},
+      {"source": "B", "target": "D", "value": 7},
+      {"source": "C", "target": "D", "value": 3}
+    ]
+  }
+  
